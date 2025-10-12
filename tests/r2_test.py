@@ -9,11 +9,13 @@ from database import (
 )
 
 # MANDATORY: Reset the database before running tests to ensure a clean state with no interference from previous tests!
-if os.path.exists(DATABASE):
-    os.remove(DATABASE)
+@pytest.fixture(autouse=True)
+def reset_database():
+    if os.path.exists(DATABASE):
+        os.remove(DATABASE)
 
-init_database()
-add_sample_data()
+    init_database()
+    add_sample_data()
 
 # -------------------------------------------------------------------------
 

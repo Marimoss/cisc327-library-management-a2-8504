@@ -12,11 +12,13 @@ from library_service import (
 )
 
 # MANDATORY: Reset the database before running tests to ensure a clean state with no interference from previous tests!
-if os.path.exists(DATABASE):
-    os.remove(DATABASE)
+@pytest.fixture(autouse=True)
+def reset_database():
+    if os.path.exists(DATABASE):
+        os.remove(DATABASE)
 
-init_database()
-add_sample_data()
+    init_database()
+    add_sample_data()
 
 # -------------------------------------------------------------------------
 
@@ -89,7 +91,8 @@ def test_add_book_negative_copies():
 
 
 def test_add_book_existing_ISBN():
-    """Test adding a book with an existing ISBN from the first test."""
+    """Test adding a book with an existing ISBN."""
+    add_book_to_catalog("Hoi", "Emily Cheng", "1234123412341", 1)
     success, message = add_book_to_catalog("New Hello", "Carol Cheng", "1234123412341", 5)
     
     assert success == False

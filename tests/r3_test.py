@@ -6,26 +6,30 @@ Run this file with venv terminal `python -m pytest tests/r3_test.py` to pytest.
 '''
 import pytest
 import os
-from database import init_database, add_sample_data, DATABASE
+from database import init_database, add_sample_data, DATABASE, get_all_books
 from library_service import (
     borrow_book_by_patron,  # The only function required for R3. 
     add_book_to_catalog # More books needed for testing. 
 )
 
 # MANDATORY: Reset the database before running tests to ensure a clean state with no interference from previous tests!
-if os.path.exists(DATABASE):
-    os.remove(DATABASE)
+@pytest.fixture(autouse=True)
+def reset_database():
+    if os.path.exists(DATABASE):
+        os.remove(DATABASE)
 
-init_database()
-add_sample_data()
+    init_database()
+    add_sample_data()
 
 # -------------------------------------------------------------------------
 
 def test_borrow_book_by_patron_parameters():
     """Test if the function accepts correct patron ID and book ID parameters, and that the book is available."""
+    books = get_all_books()
+    assert books != [], f"books were empty: {books}"
     success, message = borrow_book_by_patron("666666", 1)
     assert success == True
-    assert "Successfully borrowed" in message
+    assert "Successfully borrowed" in message  # Book not found...
 
 
 def test_borrow_book_by_patron_invalid_patron_id():

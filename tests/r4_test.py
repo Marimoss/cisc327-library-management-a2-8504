@@ -16,12 +16,14 @@ from library_service import (
 from datetime import datetime, timedelta  # To simulate late return.
 
 # MANDATORY: Reset the database before running tests to ensure a clean state with no interference from previous tests!
-if os.path.exists(DATABASE):
-    os.remove(DATABASE)
+@pytest.fixture(autouse=True)
+def reset_database():
+    if os.path.exists(DATABASE):
+        os.remove(DATABASE)
 
-init_database()
-add_sample_data()
-success, message = borrow_book_by_patron("666666", 1)  # Borrow a book first to return.
+    init_database()
+    add_sample_data()
+    success, message = borrow_book_by_patron("666666", 1)  # Borrow a book first to return.
 
 # -------------------------------------------------------------------------
 
