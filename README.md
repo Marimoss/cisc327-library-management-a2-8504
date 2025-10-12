@@ -1,5 +1,5 @@
 # Library Management System - Flask Web Application with SQLite
-[![Tests](https://github.com/Marimoss/cisc327-library-management-a2-8504/actions/workflows/ci.yaml/badge.svg)](https://github.com/Marimoss/cisc327-library-management-a2-8504/actions/workflows/ci.yaml) [![codecov](https://codecov.io/github/Marimoss/cisc327-library-management-a2-8504/graph/badge.svg?token=Y5BYISBT96)](https://codecov.io/github/Marimoss/cisc327-library-management-a2-8504)
+[![Tests](https://github.com/Marimoss/cisc327-library-management-a2-8504/actions/workflows/ci.yaml/badge.svg)](https://github.com/Marimoss/cisc327-library-management-a2-8504/actions/workflows/ci.yaml) [![codecov](https://codecov.io/github/Marimoss/cisc327-library-management-a2-8504/graph/badge.svg?token=Y5BYISBT96)](https://codecov.io/github/Marimoss/cisc327-library-management-a2-8504/blob/main/library_service.py)
 
 ## Overview
 
