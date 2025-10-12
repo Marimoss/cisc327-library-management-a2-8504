@@ -11,7 +11,7 @@ search_bp = Blueprint('search', __name__)
 def search_books():
     """
     Search for books in the catalog.
-    Web interface for R5: Book Search Functionality
+    Web interface for R6: Book Search Functionality
     """
     search_term = request.args.get('q', '').strip()
     search_type = request.args.get('type', 'title')

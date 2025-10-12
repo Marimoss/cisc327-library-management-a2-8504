@@ -11,7 +11,7 @@ api_bp = Blueprint('api', __name__, url_prefix='/api')
 def get_late_fee(patron_id, book_id):
     """
     Calculate late fee for a specific book borrowed by a patron.
-    API endpoint for R4: Late Fee Calculation
+    API endpoint for R5: Late Fee Calculation
     """
     result = calculate_late_fee_for_book(patron_id, book_id)
     return jsonify(result), 501 if 'not implemented' in result.get('status', '') else 200
@@ -20,7 +20,7 @@ def get_late_fee(patron_id, book_id):
 def search_books_api():
     """
     Search for books via API endpoint.
-    Alternative API interface for R5: Book Search Functionality
+    Alternative API interface for R6: Book Search Functionality
     """
     search_term = request.args.get('q', '').strip()
     search_type = request.args.get('type', 'title')

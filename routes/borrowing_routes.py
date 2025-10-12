@@ -11,7 +11,7 @@ borrowing_bp = Blueprint('borrowing', __name__)
 def borrow_book():
     """
     Process book borrowing request.
-    Web interface for R2: Book Borrowing
+    Web interface for R3: Book Borrowing
     """
     patron_id = request.form.get('patron_id', '').strip()
     
@@ -31,7 +31,7 @@ def borrow_book():
 def return_book():
     """
     Process book return.
-    Web interface for R3: Book Return Processing
+    Web interface for R4: Book Return Processing
     """
     if request.method == 'GET':
         return render_template('return_book.html')
