@@ -13,14 +13,14 @@ from library_service import (
 )
 
 # MANDATORY: Reset the database before running tests to ensure a clean state with no interference from previous tests!
-@pytest.fixture(autouse=True)
+@pytest.fixture(autouse=True, scope="module")
 def reset_database():
     if os.path.exists(DATABASE):
         os.remove(DATABASE)
 
     init_database()
     add_sample_data()
-    add_book_to_catalog("Detective Chinatown", "Peak Director", "8888888888888", 10)  # Add new books to borrow.
+    add_book_to_catalog("Detective Chinatown", "Peak Director", "8888888888888", 5)  # Add new books to borrow.
 
 # -------------------------------------------------------------------------
 

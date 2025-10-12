@@ -12,7 +12,7 @@ from library_service import (
 )
 
 # MANDATORY: Reset the database before running tests to ensure a clean state with no interference from previous tests!
-@pytest.fixture(autouse=True)
+@pytest.fixture(autouse=True, scope="module")
 def reset_database():
     if os.path.exists(DATABASE):
         os.remove(DATABASE)
