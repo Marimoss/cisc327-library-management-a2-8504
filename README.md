@@ -3,7 +3,7 @@
 
 ## Overview
 
-This project contains a partial implementation of a Flask-based Library Management System with SQLite database, designed for CISC 327 (Software Quality Assurance) coursework.
+This project contains a partial implementation of a Flask-based Library Management System with SQLite database, designed for CISC 327 (Software Quality Assurance) coursework. Run test files with `python -m pytest tests`.
 
 Students are provided with:
 
