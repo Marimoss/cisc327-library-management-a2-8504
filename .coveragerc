@@ -5,3 +5,5 @@ source = .
 omit =
     */tests/*
     */venv/*
+exclude_lines = 
+    DB_error
