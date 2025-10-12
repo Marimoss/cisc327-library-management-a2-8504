@@ -228,7 +228,7 @@ def search_books_in_catalog(search_term: str, search_type: str) -> List[Dict]:
         books = [book for book in all_books if q.lower() in book['author'].lower()]  # Partial matching, case-insensitive.  
         return books  
         
-    return []  # Search type was invalid. 
+    return []  # Search type was invalid.
 
 
 def get_patron_status_report(patron_id: str) -> Dict:
