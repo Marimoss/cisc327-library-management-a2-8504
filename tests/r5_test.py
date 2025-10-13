@@ -109,7 +109,7 @@ def test_calculate_late_fee_for_book_maximum():
     due_date = borrowed + timedelta(days=14) 
     insert_borrow_record("666666", 2, borrowed, due_date) 
     
-    fine = calculate_late_fee_for_book("666666", 2)  # Due 12 days ago, (7 x $0.50) + (12 x $1.00) = $15.50 but capped at $15.00.
+    fine = calculate_late_fee_for_book("666666", 2)  # Due 19 days ago, (7 x $0.50) + (12 x $1.00) = $15.50 but capped at $15.00.
 
     assert isinstance(fine['fee_amount'], float)
     assert fine['fee_amount'] == 15.00  # Maximum cap reached.
