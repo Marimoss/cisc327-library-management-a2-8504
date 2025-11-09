@@ -60,7 +60,7 @@ def add_book_to_catalog(title: str, author: str, isbn: str, total_copies: int) -
     success = insert_book(title.strip(), author.strip(), isbn, total_copies, total_copies)
     if success:
         return True, f'Book "{title.strip()}" has been successfully added to the catalog.'
-    else:
+    else:  # DB_error
         return False, "Database error occurred while adding the book."
 
 
@@ -100,11 +100,11 @@ def borrow_book_by_patron(patron_id: str, book_id: int) -> Tuple[bool, str]:
     
     # Insert borrow record and update availability
     borrow_success = insert_borrow_record(patron_id, book_id, borrow_date, due_date)
-    if not borrow_success:
+    if not borrow_success:  # DB_error
         return False, "Database error occurred while creating borrow record."
     
     availability_success = update_book_availability(book_id, -1)
-    if not availability_success:
+    if not availability_success:  # DB_error
         return False, "Database error occurred while updating book availability."
     
     return True, f'Successfully borrowed "{book["title"]}". Due date: {due_date.strftime("%Y-%m-%d")}.'
@@ -132,12 +132,12 @@ def return_book_by_patron(patron_id: str, book_id: int) -> Tuple[bool, str]:
         if book['book_id'] == book_id:
             late_fees = calculate_late_fee_for_book(patron_id, book_id)  # Returns a dictionary. 
             return_success = update_borrow_record_return_date(patron_id, book_id, datetime.now())  # Book was borrowed, record its return date. 
-            if not return_success: 
+            if not return_success:  # DB_error
                 return False, "Database error occurred while updating book return date."
             
             # Update availabile book copies. 
             update_success = update_book_availability(book_id, 1)
-            if not update_success: 
+            if not update_success:  # DB_error
                 return False, "Database error occurred while updating book availability."
             
             # Calculate late fees owed. Assume user pays late fees of a book after returning it. 
