@@ -1,23 +1,10 @@
-''' 
-Task 2.1: Write compehensive unit tests for pay_late_fees() and refund_late_fee_payment().  
-
-Stubbing requirements: 
-    - Use mocker.patch() to stub database functions calculate_late_fee_for_book() and get_book_by_id() with fake data. 
-      These stubs provide test data without verification since we only need their return values... 
-
-Mocking requirements:
-    - Use Mock(spec=PaymentGateway) to mock the payment gateway's process_payment() and refund_payment(). 
-      Unlike stubs, mocks must be verified with assert_called_once() ONLY ONCE, assert_called_with(), and assert_not_called() to ensure 
-      correct parameters are passed. 
-'''
-
 import pytest
 from services.library_service import pay_late_fees, refund_late_fee_payment 
 from unittest.mock import Mock
-from services.payment_service import PaymentGateway  # Might not be needed.. 
+from services.payment_service import PaymentGateway
 
 
-# Only required test scenarios are implemented for Task 2.1 so far. 
+# Only required test scenarios are implemented for Task 2.1 so far. -------------------------------------------------------------------------
 def test_pay_late_fees_successful_payment(mocker):
     '''Test successful payment of late fees scenario.'''
     # STUB database functions with fake data. Only the most necessary return values are provided. 
@@ -180,3 +167,5 @@ def test_refund_late_fee_payment_invalid_refund_amounts():
     assert msg == "Refund amount exceeds maximum late fee."
 
     mock_gateway.refund_payment.assert_not_called()  # refund_payment() should NEVER be called because the function returns early.
+
+# Task 2.2: Code Coverage Testing. ----------------------------------------------------------------------------------------------------------
