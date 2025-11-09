@@ -7,7 +7,7 @@ Run this file with venv terminal `python -m pytest tests/r3_test.py` to pytest.
 import pytest
 import os
 from database import init_database, add_sample_data, DATABASE
-from library_service import (
+from services.library_service import (
     borrow_book_by_patron,  # The only function required for R3. 
     add_book_to_catalog # More books needed for testing. 
 )

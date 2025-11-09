@@ -7,7 +7,7 @@ Run this file with venv terminal `python -m pytest tests/r1_test.py` to pytest.
 import pytest
 import os
 from database import init_database, add_sample_data, DATABASE
-from library_service import (
+from services.library_service import (
     add_book_to_catalog  # The only function required for R1. 
 )
 

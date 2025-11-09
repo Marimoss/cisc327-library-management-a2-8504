@@ -8,7 +8,7 @@ import pytest
 import os
 from datetime import datetime, timedelta
 from database import init_database, add_sample_data, DATABASE, insert_borrow_record
-from library_service import (
+from services.library_service import (
     get_patron_status_report, borrow_book_by_patron, add_book_to_catalog, return_book_by_patron
 )
 

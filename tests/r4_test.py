@@ -7,7 +7,7 @@ Run this file with venv terminal `python -m pytest tests/r4_test.py` to pytest.
 import pytest
 import os
 from database import init_database, add_sample_data, DATABASE, insert_borrow_record
-from library_service import (
+from services.library_service import (
     return_book_by_patron,  # The only function required for R4.
     borrow_book_by_patron,  # To test returning, we need to borrow first. 
     add_book_to_catalog, 

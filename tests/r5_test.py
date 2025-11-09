@@ -8,7 +8,7 @@ import pytest
 import os
 from datetime import datetime, timedelta
 from database import init_database, add_sample_data, DATABASE, insert_borrow_record, get_patron_borrowed_books
-from library_service import (
+from services.library_service import (
     calculate_late_fee_for_book,  # The only function required for R5. 
     borrow_book_by_patron
 )
