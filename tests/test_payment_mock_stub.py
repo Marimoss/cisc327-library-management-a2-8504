@@ -33,7 +33,7 @@ def test_pay_late_fees_successful_payment(mocker):
 def test_pay_late_fees_payment_declined(mocker):
     '''Test payment declined by gateway scenario, due to amount exceeding limit.'''
     # STUB database functions. 
-    mocker.patch("services.library_service.calculate_late_fee_for_book", return_value={"fee_amount": 1001})
+    mocker.patch("services.library_service.calculate_late_fee_for_book", return_value={"fee_amount": 1001.00})
     mocker.patch("services.library_service.get_book_by_id", return_value={"title": "Mock Book"})
 
     # MOCK payment gateway. Force a declined response. 

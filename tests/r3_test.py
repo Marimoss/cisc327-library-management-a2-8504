@@ -93,9 +93,7 @@ def test_borrow_book_by_patron_creating_DB_error(mocker):
     # Stub database functions, the book exists and patron isn't over borrow count. 
     mocker.patch("services.library_service.get_book_by_id", return_value={"title": "Mock Book", "available_copies": 1})  
     mocker.patch("services.library_service.get_patron_borrow_count", return_value=0)
-
     mocker.patch("services.library_service.insert_borrow_record", return_value=False)  # Force DB error to occur. 
-    mocker.patch("services.library_service.update_book_availability")  # Won't be reached, but patch to prevent DB access. 
 
     success, msg = borrow_book_by_patron("888888", 9)
 
