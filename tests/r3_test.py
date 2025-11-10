@@ -85,3 +85,34 @@ def test_borrow_book_by_patron_max_limit():
     success, message = borrow_book_by_patron(patron_id, 1)  # A2: Fixed a BUG discovered in the code. 
     assert success == False
     assert message == "You have reached the maximum borrowing limit of 5 books."
+
+
+# ASSIGNMENT 3 TESTS. -------------------------------------------------------
+def test_borrow_book_by_patron_creating_DB_error(mocker): 
+    '''Test borrowing a book then creating a borrow record which results in a database error. Database is stubbed.'''
+    # Stub database functions, the book exists and patron isn't over borrow count. 
+    mocker.patch("services.library_service.get_book_by_id", return_value={"title": "Mock Book", "available_copies": 1})  
+    mocker.patch("services.library_service.get_patron_borrow_count", return_value=0)
+
+    mocker.patch("services.library_service.insert_borrow_record", return_value=False)  # Force DB error to occur. 
+    mocker.patch("services.library_service.update_book_availability")  # Won't be reached, but patch to prevent DB access. 
+
+    success, msg = borrow_book_by_patron("888888", 9)
+
+    assert success is False  # Function failed as expected.
+    assert msg == "Database error occurred while creating borrow record."
+
+
+def test_borrow_book_by_patron_update_DB_error(mocker): 
+    '''Test borrowing a book then updating book availability which results in a database error. Database is stubbed.'''
+    # STUB database functions, the book exists and patron isn't over borrow count. 
+    mocker.patch("services.library_service.get_book_by_id", return_value={"title": "Mock Book", "available_copies": 1})  
+    mocker.patch("services.library_service.get_patron_borrow_count", return_value=0)
+    mocker.patch("services.library_service.insert_borrow_record", return_value=True)
+
+    mocker.patch("services.library_service.update_book_availability", return_value=False)  # Force DB error to occur. 
+
+    success, msg = borrow_book_by_patron("888888", 9)
+
+    assert success is False  # Function failed as expected. 
+    assert msg == "Database error occurred while updating book availability."

@@ -93,3 +93,31 @@ def test_return_book_by_patron_late():
     assert success == True
     assert message == 'Book with id=1 successfully returned. Late fee $6.50 for being 10 days overdue.'
 
+
+# ASSIGNMENT 3 TESTS. -------------------------------------------------------
+def test_return_book_by_patron_return_DB_error(mocker): 
+    '''Test returning a book with a database error that occurred while updating the book return date. Uses stubs for database functions.'''
+    # STUB database functions, patron had a borrowed book. 
+    mocker.patch("services.library_service.get_patron_borrowed_books", return_value=[{"book_id": 1, "title": "Mock Book"}]) 
+    mocker.patch("services.library_service.calculate_late_fee_for_book", return_value={"fee_amount": 0.0, "days_overdue": 0})
+    mocker.patch("services.library_service.update_borrow_record_return_date", return_value=False)  # Force DB update return date failure.
+
+    success, msg = return_book_by_patron("888888", 1)
+
+    assert success is False  # Function failed as expected. 
+    assert msg == "Database error occurred while updating book return date."
+
+
+def test_return_book_by_patron_availablility_DB_error(mocker):
+    '''Test returning a book with a database error that occurred while updating the book availability. Uses stubs for database functions.'''
+    # STUB database functions, patron had a borrowed book and return date was updated. 
+    mocker.patch("services.library_service.get_patron_borrowed_books", return_value=[{"book_id": 1, "title": "Mock Book"}]) 
+    mocker.patch("services.library_service.calculate_late_fee_for_book", return_value={"fee_amount": 0.0, "days_overdue": 0})
+    mocker.patch("services.library_service.update_borrow_record_return_date", return_value=True)
+
+    mocker.patch("services.library_service.update_book_availability", return_value=False)  # Force DB update book availability failure.
+
+    success, msg = return_book_by_patron("888888", 1)
+
+    assert success is False  # Function failed as expected. 
+    assert msg == "Database error occurred while updating book availability."

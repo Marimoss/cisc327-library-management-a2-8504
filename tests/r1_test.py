@@ -112,3 +112,17 @@ def test_add_book_invalid_isbn_13_spaces():
     
     assert success == False  # A2: Fixed a BUG discovered in the code. 
     assert 'ISBN must be exactly 13 number-only digits.' in message
+
+
+# ASSIGNMENT 3 TEST. -------------------------------------------------------
+def test_add_book_to_catalog_DB_error(mocker):
+    '''Test adding a book when database error occurs, simulated by stubbing the database connection to raise an exception.'''
+    # STUB database functions. 
+    mocker.patch("services.library_service.get_book_by_isbn", return_value=None)  # No existing book with the same ISBN. 
+    mocker.patch("services.library_service.insert_book", return_value=False)  # Force DB insertion failure.
+
+    success, msg = add_book_to_catalog("DB Error Book", "Jackie Chan", "0000000000000", 1)  # Call tested function. 
+
+    assert success is False  # Function failed as expected.
+    assert msg == "Database error occurred while adding the book."
+
