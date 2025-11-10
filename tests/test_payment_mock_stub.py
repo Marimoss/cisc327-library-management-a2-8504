@@ -5,11 +5,10 @@ from services.payment_service import PaymentGateway
 
 
 # Only required test scenarios are implemented for Task 2.1 so far. -------------------------------------------------------------------------
-# Technically, .assert_called_once_with() can be used but it was not specified in assignment instructions so I assume it isn't allowed. 
 def test_pay_late_fees_successful_payment(mocker):
     '''Test successful payment of late fees scenario.'''
     # STUB database functions with fake data. Only the most necessary return values are provided. 
-    mocker.patch("services.library_service.calculate_late_fee_for_book", return_value={"fee_amount": 1.00, "days_overdue": 2})
+    mocker.patch("services.library_service.calculate_late_fee_for_book", return_value={"fee_amount": 1.00})
     mocker.patch("services.library_service.get_book_by_id", return_value={"title": "Mock Book"})
 
     # MOCK payment gateway. Simulate success with patron_id="888888".  
@@ -34,7 +33,7 @@ def test_pay_late_fees_successful_payment(mocker):
 def test_pay_late_fees_payment_declined(mocker):
     '''Test payment declined by gateway scenario, due to amount exceeding limit.'''
     # STUB database functions. 
-    mocker.patch("services.library_service.calculate_late_fee_for_book", return_value={"fee_amount": 1.00, "days_overdue": 2})
+    mocker.patch("services.library_service.calculate_late_fee_for_book", return_value={"fee_amount": 1001})
     mocker.patch("services.library_service.get_book_by_id", return_value={"title": "Mock Book"})
 
     # MOCK payment gateway. Force a declined response. 
@@ -49,7 +48,7 @@ def test_pay_late_fees_payment_declined(mocker):
     mock_gateway.process_payment.assert_called_once()
     mock_gateway.process_payment.assert_called_with(
         patron_id="888888", 
-        amount=1.00, 
+        amount=1001.00, 
         description="Late fees for 'Mock Book'"
     )
 
@@ -72,7 +71,7 @@ def test_pay_late_fees_invalid_patron_id(mocker):
 def test_pay_late_fees_zero_late_fees(mocker): 
     '''Test scenario where there are zero late fees. Like before, pay_late_fees() should NOT call process_payment() mock.'''
     # STUB database function, to return zero late fees.
-    mocker.patch("services.library_service.calculate_late_fee_for_book", return_value={"fee_amount": 0.00, "days_overdue": 0})
+    mocker.patch("services.library_service.calculate_late_fee_for_book", return_value={"fee_amount": 0.00})
 
     # MOCK payment gateway setup, but process_payment() is never called.
     mock_gateway = Mock(spec=PaymentGateway)
@@ -89,7 +88,7 @@ def test_pay_late_fees_zero_late_fees(mocker):
 def test_pay_late_fees_network_error(mocker):
     '''Test scenario where there is a payment gateway network error exception handling.'''
     # STUB database functions.
-    mocker.patch("services.library_service.calculate_late_fee_for_book", return_value={"fee_amount": 1.00, "days_overdue": 2})
+    mocker.patch("services.library_service.calculate_late_fee_for_book", return_value={"fee_amount": 1.00})
     mocker.patch("services.library_service.get_book_by_id", return_value={"title": "Mock Book"})
 
     # MOCK payment gateway setup, to raise an exception simulating network error.
@@ -184,7 +183,7 @@ def test_pay_late_fees_no_fee_info(mocker):
 def test_pay_late_fees_no_book(mocker): 
     '''Test payment for late fees, get_book_by_id() returns None, so the rest is never called.'''
     # STUB database-related function, simulate it having an issue with getting a book by its ID. 
-    mocker.patch("services.library_service.calculate_late_fee_for_book", return_value={"fee_amount": 1.00, "days_overdue": 2})
+    mocker.patch("services.library_service.calculate_late_fee_for_book", return_value={"fee_amount": 1.00})
     mocker.patch("services.library_service.get_book_by_id", return_value=None)
 
     # MOCK payment gateway setup, but process_payment() is never called. 
